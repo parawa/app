@@ -1,0 +1,77 @@
+/* @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400&display=swap'); 
+body {
+  margin: 0;
+  font-family: 'IBM Plex Sans Thai', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: 'IBM Plex Sans Thai', sans-serif;
+}
+
+.content{
+ margin: '24px 16px 0';
+}
+.header{
+ text-align: center;
+ color : rgba(255, 255, 255, 0.667);
+ Height : '64px';
+ padding-inline: 50;
+ line-height: '64px';
+ background-color: rgb(156, 39, 176); ;
+};
+.sider-bar{
+ text-align: 'center';
+ line-height: '120px';
+ color: '#fafa';
+ background-color: '#3ba0e9';
+} */
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #107083;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  cursor: pointer;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  color: #fff;
+  display: block;
+  transition: 0.3s;
+  /* border-left: 4px solid #fff; */
+}
+
+.sidenav a:hover {
+  color: #025464;
+  background-color: #fff;
+  border-left: 4px solid #025464;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+/* Survey App CSS */
+.otherSide {
+  transition: margin-left .5s;
+  background-color: #f7f2ec;
+  position: absolute; 
+  min-width: -webkit-fill-available;
+  min-height: -webkit-fill-available;
+} 
+.tap-bar{
+  background-color: #025464;
+}

@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400&display=swap'); 
+body {
+  margin: 0;
+  font-family: 'IBM Plex Sans Thai', sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: 'IBM Plex Sans Thai', sans-serif !important;
+}
+:root {
+  --clr-primary: #ee6352;
+  --clr-primary-hover: #ff1e00;
+  --clr-button-clicked: #f7ff07;
+  --clr-body: #333;
+  --clr-bg: white;
+  --size-button: 30px;
+  --clr-backgroud :#025464;
+  --clr-box-title:#025464bf;
+  --clr-box2:#E8AA42;
+  --clr-backgroud2:#F8F1F1;
+}
+
+.text-font{
+  color:#F8F1F1;
+  padding: 10px 10px 10px 35px;
+  font-size: 2.5ch !important;
+}
+.Box-title{
+  background-color:#025464bf ;
+  margin-top: 0px;
+}
+
+.content{
+  margin: 30px 10px 10px 20px;
+  padding: 10px 20px 20px 20px;
+  background-color: bisque;
+  border-radius: 10px ;
+  box-shadow: 2px 3px 5px #02546445;
+
+ }
+ 
