@@ -1,9 +1,9 @@
-import React from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Layouts from "../Layout";
-import {EditOutlined,DeleteOutlined } from '@ant-design/icons';
-import { Space, Table, Tag } from 'antd';
-import "./insert.css";
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { Space, Table, Tag } from "antd";
+// import "./insert.css";
 import "../../../src/index.css";
 import { Row, Col } from "antd";
 import {
@@ -14,59 +14,60 @@ import {
   Button,
 } from "@mui/material";
 import useCustomTheme from "../hooks/useCustomTheme";
-import AddIcon from '@mui/icons-material/Add';
-import SearchIcon from '@mui/icons-material/Search';
+import AddIcon from "@mui/icons-material/Add";
+import SearchIcon from "@mui/icons-material/Search";
 
 const columns = [
   {
-    title: 'รหัสแปลงที่ดิน',
-    dataIndex: 'name',
-    key: 'name',
+    title: "รหัสแปลงที่ดิน",
+    dataIndex: "name",
+    key: "name",
     // render: (text) => <a>{text}</a>,
   },
 
   {
-    title: 'ที่อยู่',
-    dataIndex: 'address',
-    key: 'address',
+    title: "ที่อยู่",
+    dataIndex: "address",
+    key: "address",
   },
- 
-  
+
   {
-    title: '',
-    key: 'action',
+    title: "",
+    key: "action",
     render: (_, record) => (
       <Space size="middle">
-        <Button style={{color:'#6a5acd'}}><EditOutlined /> แก้ไขข้อมูล</Button>
+        <Button style={{ color: "#6a5acd" }}>
+          <EditOutlined /> แก้ไขข้อมูล
+        </Button>
       </Space>
     ),
-  },  
+  },
   {
-    title: '',
-    key: 'action',
+    title: "",
+    key: "action",
     render: (_, record) => (
       <Space size="middle">
-        <Button 
-        style={{color:'#ff0000'}}
-    
-         ><DeleteOutlined />ลบข้อมูล</Button>
+        <Button style={{ color: "#ff0000" }}>
+          <DeleteOutlined />
+          ลบข้อมูล
+        </Button>
       </Space>
     ),
-  },  
+  },
 ];
 const data = [
   {
-    key: '1',
-    name: 'John Brown',
+    key: "1",
+    name: "John Brown",
     age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
+    address: "New York No. 1 Lake Park",
+    tags: ["nice", "developer"],
   },
-]
+];
 
-function Insert() {
+function Search() {
   const { theme } = useCustomTheme();
-  const App = () => <Table columns={columns}  dataSource={data}/>;
+  const App = () => <Table columns={columns} dataSource={data} />;
   const ComponentDemo = App;
   return (
     <ThemeProvider theme={theme}>
@@ -94,12 +95,11 @@ function Insert() {
                 variant="contained"
                 type="submit"
               >
-                <SearchIcon/>
+                <SearchIcon />
                 ค้นหา
               </Button>
             </Col>
             <Col>
-           
               <Button
                 style={{
                   height: "3rem",
@@ -108,17 +108,15 @@ function Insert() {
                 variant="contained"
                 type="submit"
               >
-                <AddIcon/>
-                
+                <AddIcon />
                 เพิ่มแฟ้มเอกสาร
               </Button>
-              
             </Col>
           </Row>
         </Box>
         <Box className="content">
-          <Row style={{justifyContent: 'center'}}>
-          <ComponentDemo />
+          <Row style={{ justifyContent: "center" }}>
+            <ComponentDemo />
           </Row>
         </Box>
       </div>
@@ -126,4 +124,4 @@ function Insert() {
   );
 }
 
-export default Insert;
+export default Search;

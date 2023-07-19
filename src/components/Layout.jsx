@@ -157,7 +157,7 @@ export default function Layouts() {
     <div>
       <div id="sideNav" className="sidenav">
         <Link to="/">หน้าหลัก</Link>
-        <Link to="/insert">ค้นหาข้อมูล</Link>
+        <Link to="/search">ค้นหาข้อมูล</Link>
         <Link to="/edit">แก้ไข</Link>
       </div>
       <div id="topNav">
