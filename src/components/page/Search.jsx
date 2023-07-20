@@ -67,6 +67,7 @@ const data = [
 
 function Search() {
   const { theme } = useCustomTheme();
+  const navigate = useNavigate()
   const App = () => <Table columns={columns} dataSource={data} />;
   const ComponentDemo = App;
   return (
@@ -107,7 +108,9 @@ function Search() {
                 }}
                 variant="contained"
                 type="submit"
+                onClick={() => { navigate('../') }}
               >
+
                 <AddIcon />
                 เพิ่มแฟ้มเอกสาร
               </Button>

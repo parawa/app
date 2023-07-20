@@ -11,7 +11,7 @@ export default function Forminput({files,setFiles,parcelCode,setParcelCode}) {
 
   return (
     <Box className="content">
-      <Typography>ข้อมูลแฟ้มเอกสาร</Typography>
+      <Typography sx={{fontSize:"1.5em"}}>ข้อมูลแฟ้มเอกสาร</Typography>
       <Row gutter={[24, 24]}>
         <Col className="form-input">
           <TextField
@@ -19,8 +19,8 @@ export default function Forminput({files,setFiles,parcelCode,setParcelCode}) {
             className="text-field"
             label="รหัสแปลงที่ดิน"
             value={parcelCode}
-            onChange={(event) => {
-              setParcelCode(event.target.value)
+              onChange={(event) => {
+                setParcelCode(event.target.value)
             }}
           />
         </Col>
