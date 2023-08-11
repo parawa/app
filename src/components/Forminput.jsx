@@ -7,11 +7,11 @@ import { TextField, Box, Typography, Button } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import AddIcon from "@mui/icons-material/Add";
 
-export default function Forminput({files,setFiles,parcelCode,setParcelCode}) {
+export default function Forminput({ files, setFiles, parcelCode, setParcelCode }) {
 
   return (
     <Box className="content">
-      <Typography sx={{fontSize:"1.5em"}}>ข้อมูลแฟ้มเอกสาร</Typography>
+      <Typography sx={{ fontSize: "1.5em" ,fontWeight:"900"}}>ข้อมูลแฟ้มเอกสาร</Typography>
       <Row gutter={[24, 24]}>
         <Col className="form-input">
           <TextField
@@ -19,8 +19,8 @@ export default function Forminput({files,setFiles,parcelCode,setParcelCode}) {
             className="text-field"
             label="รหัสแปลงที่ดิน"
             value={parcelCode}
-              onChange={(event) => {
-                setParcelCode(event.target.value)
+            onChange={(event) => {
+              setParcelCode(event.target.value)
             }}
           />
         </Col>
@@ -28,10 +28,19 @@ export default function Forminput({files,setFiles,parcelCode,setParcelCode}) {
       {files?.map((data, index) => (
         <Box key={index}>
           <Divider orientation="left" className="divider">
-            <Typography>อัพโหลดเอกสาร</Typography>
+          <Typography style={{fontWeight:"900"}}>อัพโหลดเอกสาร</Typography>
           </Divider>
           <Row gutter={[24, 24]}>
-            <Col span={12} className="form-input">
+            <Col >
+            <TextField
+              sx={{ width: '8ch' }}
+              id=""
+              label="ลำดับที่"
+              value={index + 1}
+              disabled
+            />
+            </Col>
+            <Col span={10} className="form-input">
               <TextField
                 className="text-field"
                 label="เอกสาร"
@@ -51,7 +60,7 @@ export default function Forminput({files,setFiles,parcelCode,setParcelCode}) {
                 <MenuItem value={5}>อื่นๆ</MenuItem>
               </TextField>
             </Col>
-            <Col span={12}>
+            <Col span={10}>
               <TextField
                 className="text-field"
                 type="file"
@@ -101,6 +110,7 @@ export default function Forminput({files,setFiles,parcelCode,setParcelCode}) {
       ))}
       <Row gutter={[24, 24]} style={{ justifyContent: "flex-end" }}>
         <Col>
+
           <Button
             style={{
               height: "3rem",
@@ -128,7 +138,7 @@ export default function Forminput({files,setFiles,parcelCode,setParcelCode}) {
 
         </Col>
         <Col>
-         
+
         </Col>
       </Row>
     </Box>

@@ -30,6 +30,7 @@ code {
 .Box-title{
   background-color:#025464bf ;
   margin-top: 0px;
+  /* font-weight: 900  !important; */
 }
 
 .content{
@@ -40,4 +41,22 @@ code {
   box-shadow: 2px 3px 5px #02546445;
 
  }
- 
+
+/* home2 */
+.box-title{
+  /* margin: 20px 20px 20px 20px;
+  padding: 10px 10px 10px 10px; */
+  display: flex; 
+  flex-direction: column;
+  top: 30%;
+  width: 100%;
+  align-items: center;
+  position: absolute;
+}
+.button{
+  background-color:#00000045;
+  color: #FFFFFF;
+  border:none;
+  height: 50px;
+}
+

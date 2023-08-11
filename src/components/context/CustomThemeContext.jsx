@@ -8,6 +8,7 @@ export const CustomThemeProvider = ({ children }) => {
     createTheme({
       typography: {
         fontFamily: ["IBM Plex Sans Thai", "sans-serif"].join(","),
+        fontWeight:"900"
       },
     })
   )

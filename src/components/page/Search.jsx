@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import LoadingOutlined from "../loadingOutlined";
 import Layouts from "../Layout";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import axiosEPropertyFolder from '../../api/axios'
-import { Space, Table, Tag } from "antd";
+import { Space, Table } from "antd";
 // import "./insert.css";
 import "../../../src/index.css";
 import { Row, Col } from "antd";
@@ -47,23 +48,24 @@ function Search() {
     setColumns([
       {
         title: "รหัสแปลงที่ดิน",
-        dataIndex: 'รหัสแปลงที่ดิน',
+        dataIndex: 'parcel_code',
         width: 400,
-        render: (_, record) => <a>{record.parcel_code}</a>,
+        // render: (_, record) => <a>{record.parcel_code}</a>,
       },
       {
         title: "ประเภทเอกสาร",
+        dataIndex: 'type',
         width: 400,
-        render: (_, record) => <a>{record.type}</a>,
+        // render: (_, record) => <a>{record.type}</a>,
       },
-   
+
       {
         // field: 'Parcel Code',
         // title: "รหัสแปลงที่ดิน",
         width: 400,
         render: (_, record) => (
-          <Space size="middle">
-            <Button style={{ color: "#6a5acd" }}>
+          <Space size="middle" >
+            <Button style={{ color: "#6a5acd", }}>
               <EditOutlined /> แก้ไขข้อมูล
             </Button>
           </Space>
@@ -72,7 +74,7 @@ function Search() {
       {
         width: 400,
         render: (_, record) => (
-          <Space size="middle">
+          <Space size="middle">  
             <Button style={{ color: "#ff0000" }}>
               <DeleteOutlined />
               ลบข้อมูล
@@ -94,18 +96,28 @@ function Search() {
         <div>
           <Layouts />
         </div>
-        <Box className="Box-title">
+        {/* <Box className="Box-title">
           <Typography className="text-font">ค้นหาข้อมูล</Typography>
-        </Box>
+        </Box> */}
         <Box
           className="content"
           component="form"
           onSubmit={handleSearchFormSubmit}
         >
+          <Typography
+            style={{
+              color: '#025464',
+              textAlign: "center",
+              fontWeight: '900',
+              fontSize: '25px',
+              margin: '10px 5px'
+            }}>
+            ค้นหาข้อมูล</Typography>
+
           <Row
             gutter={[24, 24]}
             style={{ justifyContent: "center", alignItems: "center" }}
-            autoComplete="off"
+            
           >
             <Col>
               <TextField
@@ -126,24 +138,38 @@ function Search() {
               </Button>
             </Col>
             <Col>
-              <Button
-                style={{
-                  height: "3rem",
-                  backgroundColor: "#3cb371",
-                }}
-                variant="contained"
-                // type="submit"
-                onClick={() => { navigate('../') }}
-              >
 
-                <AddIcon />
-                เพิ่มแฟ้มเอกสาร
-              </Button>
             </Col>
           </Row>
         </Box>
         <Box className="content">
+          <Row>
+            <Typography
+              style={{
+                color: '#025464',
+                // textAlign: "center",
+                fontWeight: '900',
+                fontSize: '25px',
+                margin: '10px 5px'
+              }}>
+              รายการแฟ้มเอกสาร</Typography>
+            <Button
+              style={{
+                height: "3rem",
+                backgroundColor: "#3cb371",
+                marginLeft:'10px'
+              }}
+              variant="contained"
+              // type="submit"
+              onClick={() => { navigate('../home') }}
+            >
+
+              <AddIcon />
+              เพิ่มแฟ้มเอกสาร
+            </Button>
+          </Row>
           <Row style={{ justifyContent: "center" }}>
+          {loading ? <LoadingOutlined/> : ""}
             <Table
               columns={columns}
               dataSource={data}

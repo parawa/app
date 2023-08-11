@@ -1,4 +1,5 @@
-import React from 'react'
+
+import axiosEPropertyFolder from '../../api/axios'
 
 export default function useUploadImages() {
  const fetchImageUpload = async (parcelCode, files) => {
@@ -15,8 +16,8 @@ export default function useUploadImages() {
    }
    formData.append('parcelCode', parcelCode)
    try {
-    var result = await axiosSmartSurvey.post(`/upload/landimages`, formData)
-    // console.log(result.data)
+    var result = await axiosEPropertyFolder.post(`/upload`, formData)
+   console.log(result.data)
    } catch (error) {
     // console.error(error)
     return []

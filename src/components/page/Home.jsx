@@ -6,6 +6,7 @@ import Forminput from "../Forminput";
 import "../../../src/index.css";
 import useCustomTheme from "../hooks/useCustomTheme";
 import useInsertSubmit from "../hooks/useInsertSubmit";
+import useUploadImages from "../hooks/useUploadImages";
 function Home() {
   const { theme } = useCustomTheme()
   const [parcelCode, setparcelCode] = useState(null)
@@ -20,13 +21,15 @@ function Home() {
     }
   ]);
   const { fetchFilesInsert } = useInsertSubmit()
+  const {fetchImageUpload}   = useUploadImages();
+
 
   return (
     <ThemeProvider theme={theme}>
       <div className="otherSide" id="otherSide">
         <Layouts />
-        <Box className="Box-title">
-          <Typography className="text-font">แฟ้มเอกสาร</Typography>
+        <Box className="Box-title" >
+          <Typography className="text-font" style={{ fontWeight:'900'}}>เพิ่มแฟ้มเอกสาร</Typography>
         </Box>
         <Box
           component='form'

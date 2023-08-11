@@ -1,32 +1,4 @@
-/* @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400&display=swap'); 
-body {
-  margin: 0;
-  font-family: 'IBM Plex Sans Thai', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
 
-code {
-  font-family: 'IBM Plex Sans Thai', sans-serif;
-}
-
-.content{
- margin: '24px 16px 0';
-}
-.header{
- text-align: center;
- color : rgba(255, 255, 255, 0.667);
- Height : '64px';
- padding-inline: 50;
- line-height: '64px';
- background-color: rgb(156, 39, 176); ;
-};
-.sider-bar{
- text-align: 'center';
- line-height: '120px';
- color: '#fafa';
- background-color: '#3ba0e9';
-} */
 .sidenav {
   height: 100%;
   width: 0;
@@ -67,7 +39,7 @@ code {
 /* Survey App CSS */
 .otherSide {
   transition: margin-left .5s;
-  background-color: #f7f2ec;
+  background-color: #025464;
   position: absolute; 
   min-width: -webkit-fill-available;
   min-height: -webkit-fill-available;

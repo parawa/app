@@ -26,7 +26,7 @@ function Edit() {
         <div>
           <Layouts />
           <Box className="Box-title">
-          <Typography className="text-font">แฟ้มเอกสาร</Typography>
+          <Typography className="text-font" style={{ fontWeight:'900'}}>แฟ้มเอกสาร</Typography>
         </Box>
         </div>
         <Box>
