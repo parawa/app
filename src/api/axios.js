@@ -1,5 +1,5 @@
 import axios from 'axios';
-const BASE_URL = 'http://localhost:3001'
+const BASE_URL = 'http://172.30.4.66:3001/taxmapfolders'
 
 const axiosEPropertyFolder = axios.create({
     baseURL: BASE_URL,

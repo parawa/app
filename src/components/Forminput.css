@@ -13,6 +13,7 @@ code {
 
 .form-input{
  text-align: center;
+ margin-top: 10px;
 
 }
 
@@ -22,4 +23,18 @@ code {
 
 .divider {
  border-top: 1px solid #000000; /* Adjust color and size as needed */
+}
+
+.backgroud-formInput {
+  color: aliceblue;
+  border-radius: 0px 20px;
+  background-color: #025464bf;
+  /* box-sizing: content-box; */
+  margin: 10px;
+  padding: 10px;
+  width: 300px;
+  display: flex;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
 }

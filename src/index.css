@@ -26,7 +26,14 @@ code {
   color:#F8F1F1;
   padding: 10px 10px 10px 35px;
   font-size: 2.5ch !important;
+ 
 }
+.backgroud{
+  border-radius: 0px 0px 60px 0px;
+  background-color: #E8AA42;
+  box-shadow: 5px 5px 0px #E57C23;
+}
+
 .Box-title{
   background-color:#025464bf ;
   margin-top: 0px;
@@ -59,4 +66,5 @@ code {
   border:none;
   height: 50px;
 }
+ 
 

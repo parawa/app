@@ -11,7 +11,9 @@ export default function Forminput({ files, setFiles, parcelCode, setParcelCode }
 
   return (
     <Box className="content">
-      <Typography sx={{ fontSize: "1.5em" ,fontWeight:"900"}}>ข้อมูลแฟ้มเอกสาร</Typography>
+      <Box className="backgroud-formInput">
+        <Typography sx={{ fontSize: "1.5em", fontWeight: "900" }}>ข้อมูลแฟ้มเอกสาร</Typography>
+      </Box>
       <Row gutter={[24, 24]}>
         <Col className="form-input">
           <TextField
@@ -28,17 +30,17 @@ export default function Forminput({ files, setFiles, parcelCode, setParcelCode }
       {files?.map((data, index) => (
         <Box key={index}>
           <Divider orientation="left" className="divider">
-          <Typography style={{fontWeight:"900"}}>อัพโหลดเอกสาร</Typography>
+            <Typography style={{ fontWeight: "900" }}>อัพโหลดเอกสาร</Typography>
           </Divider>
           <Row gutter={[24, 24]}>
             <Col >
-            <TextField
-              sx={{ width: '8ch' }}
-              id=""
-              label="ลำดับที่"
-              value={index + 1}
-              disabled
-            />
+              <TextField
+                sx={{ width: '8ch' }}
+                id=""
+                label="ลำดับที่"
+                value={index + 1}
+                disabled
+              />
             </Col>
             <Col span={10} className="form-input">
               <TextField
@@ -64,6 +66,9 @@ export default function Forminput({ files, setFiles, parcelCode, setParcelCode }
               <TextField
                 className="text-field"
                 type="file"
+                InputLabelProps={{
+                  shrink: true,
+                }}
                 onChange={(e) => {
                   console.log(e.target.files)
                   var arr = [...files]

@@ -6,10 +6,12 @@ export default function useInsertSubmit() {
   event.preventDefault()
   axiosEPropertyFolder({
    method: 'post',
-   url: '/filesinsert',
+   url: '/insert',
    data: {
-    files: files,
-    parcelCode: parcelCode
+    filesDetail: files,
+    parcelCode: parcelCode,
+    imageId: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    userId: 20
    }
   }).then((response) => {
    console.log(response)

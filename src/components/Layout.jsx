@@ -37,10 +37,10 @@ export default function Layouts() {
 
   useEffect(() => {
     if (selected === true) {
-      document.getElementById("sideNav").style.width = "150px";
+      // document.getElementById("sideNav").style.width = "150px";
       document.getElementById("otherSide").style.marginLeft = "150px";
     } else {
-      document.getElementById("sideNav").style.width = "0px";
+      // document.getElementById("sideNav").style.width = "0px";
       document.getElementById("otherSide").style.marginLeft = "0px";
     }
   });
@@ -155,16 +155,16 @@ export default function Layouts() {
 
   return (
     <div>
-      <div id="sideNav" className="sidenav">
-        <Link to="/">หน้าหลัก</Link>
-        <Link to="/search">ค้นหาข้อมูล</Link>
-        <Link to="/edit">แก้ไข</Link>
-      </div>
+    {/* //   <div id="sideNav" className="sidenav">
+    //     <Link to="/">หน้าหลัก</Link>
+    //     <Link to="/search">ค้นหาข้อมูล</Link>
+    //     <Link to="/edit">แก้ไข</Link>
+    //   </div> */}
       <div id="topNav">
         <Box sx={{ flexGrow: 1 }}>
           <AppBar position="static"  style={{backgroundColor:'#025464'}}>
             <Toolbar>
-              <IconButton
+              {/* <IconButton
                 size="large"
                 edge="start"
                 color="inherit"
@@ -176,7 +176,7 @@ export default function Layouts() {
                 }}
               >
                 <MenuIcon />
-              </IconButton>
+              </IconButton> */}
               <Avatar sx={{ margin: "10px" }} src="/suratcity-logo.png">
                 {/* <LockOutlinedIcon /> */}
               </Avatar>
