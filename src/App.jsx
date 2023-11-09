@@ -4,8 +4,7 @@ import './App.css'
 import Home from './components/page/Home';
 import Search from './components/page/Search';
 import Edit from './components/page/Edit';
-import Login from './components/Login/Login';
-import Home2 from './components/page/Home2';
+
 
 function App() {
   

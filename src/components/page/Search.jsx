@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import LoadingOutlined from "../loadingOutlined";
+import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
+import LoadingOutlined from "../LoadingOutlined";
 import Layouts from "../Layout";
+import MenuItem from "@mui/material/MenuItem";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import axiosEPropertyFolder from '../../api/axios'
-import { Space, Table, Popconfirm } from "antd";
-// import "./insert.css";
+import { Table, Row, Col } from "antd";
 import "../../../src/index.css";
-import { Row, Col } from "antd";
 import {
   Box,
   TextField,
@@ -19,19 +18,24 @@ import {
 import useCustomTheme from "../hooks/useCustomTheme";
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
-import Item from "antd/es/list/Item";
+import useFetchFileData from "../hooks/useFetchFileData";
+
 
 function Search() {
+  let [searchParams, setSearchParams] = useSearchParams();
   const { theme } = useCustomTheme();
+  const location = useLocation()
+  const { fetchfileEdit } = useFetchFileData()
   const navigate = useNavigate()
   const [data, setData] = useState([]);
   const [columns, setColumns] = useState([])
   const [loading, setLoading] = useState(false)
-  const [parcelCodeSearch, setParcelCodeSearch] = useState()
+  const [parcelCodeSearch, setParcelCodeSearch] = useState(
+    searchParams.get('parcelCodeSearch'
+    ))
   const [deleteId, setDeleteId] = useState()
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [statusChangedNote, setStatusChangedNote] = useState('')
-
   const handleDeleteDialogClickOpen = () => {
     setDeleteDialogOpen(true);
   };
@@ -40,14 +44,13 @@ function Search() {
     setStatusChangedNote('')
     setDeleteId(null)
   };
-  const handleSearchFormSubmit = async (event) => {
-    event.preventDefault()
+  const handleSearchFormSubmit = async (parcelCode) => {
     setLoading(true);
     await axiosEPropertyFolder({
       method: 'post',
       url: '/search',
       data: {
-        parcelCodeSearch: parcelCodeSearch
+        parcelCodeSearch: parcelCode
       }
     }).then((response) => {
       response = response.data
@@ -75,6 +78,12 @@ function Search() {
     })
   }
   useEffect(() => {
+    if (location?.state?.parcelCode) {
+      handleSearchFormSubmit(location.state.parcelCode)
+    }
+  }, [parcelCodeSearch])
+
+  useEffect(() => {
     setColumns([
       Table.EXPAND_COLUMN,
       {
@@ -87,22 +96,56 @@ function Search() {
         title: "ประเภทเอกสาร",
         dataIndex: 'type',
         width: 400,
-        render: (type) => <a>{type}</a>,
+        render: (params) => {
+          console.log(params)
+          const typeName = [
+            {
+              idType: 1,
+              type_name: "เอกสารสิทธิ์"
+            },
+            {
+              idType: 2,
+              type_name: "ทด.1"
+            },
+            {
+              idType: 3,
+              type_name: "แบบสำรวจที่ดินและสิ่งปลูกสร้าง"
+            },
+            {
+              idType: 4,
+              type_name: "แบบสำรวจป้าย"
+            },
+            {
+              idType: 5,
+              type_name: "อื่นๆ"
+            },
+          ]
+          return (
+            <p style={{ fontFamily: 'IBM Plex Sans Thai' }} > {typeName.map((data) => (data.idType === params ? data.type_name : ' '))}</p>
+          )
+        }
       },
-
       {
-        // field: 'Parcel Code',
-        // title: "รหัสแปลงที่ดิน",
+        title: "หมายเหตุ",
+        dataIndex: 'note',
+        width: 400,
+         render: (_, record) => <p style={{ fontFamily: 'IBM Plex Sans Thai' }}>{record.note}</p>,
+      },
+      // {
+      //   title: "หมายเหตุ",
+      //   dataIndex: 'path',
+      //   width: 400,
+      //    render: (_, record) => <a style={{ fontFamily: 'IBM Plex Sans Thai' }}>{record.path}</a>,
+      // },
+      {
         width: 400,
         render: (params) => {
-          const pacelCodeID = params.id
+          const fileId = params.id
           return (
-
             <Button style={{ color: "#6a5acd", }}
-              onClick={(params) => {
-                console.log(pacelCodeID)
-
-                navigate('/edit', { state: { id: pacelCodeID } })
+              onClick={() => {
+                console.log(fileId)
+                navigate('/edit', { state: { fileId: fileId } })
               }}
             >
               <EditOutlined /> แก้ไขข้อมูล
@@ -128,24 +171,17 @@ function Search() {
               <DeleteOutlined />
               ลบข้อมูล
             </Button>
+          
 
           )
-
         }
-
-
       }
     ])
   }, [])
-  useEffect(() => {
-    console.log(data)
-  }, [data])
+  useEffect(() => { console.log(data) }, [data])
+
 
   const refreshButton = document.getElementById("refreshButton");
-    
-  // refreshButton.addEventListener("click", function() {
-  //     location.reload();
-  // });
 
   return (
     <ThemeProvider theme={theme}>
@@ -153,13 +189,14 @@ function Search() {
         <div>
           <Layouts />
         </div>
-        {/* <Box className="Box-title">
-          <Typography className="text-font">ค้นหาข้อมูล</Typography>
-        </Box> */}
         <Box
           className="content"
           component="form"
-          onSubmit={handleSearchFormSubmit}
+          onSubmit={(event) => {
+            event.preventDefault()
+            setSearchParams({ parcelCodeSearch: parcelCodeSearch })
+            handleSearchFormSubmit(parcelCodeSearch)
+          }}
         >
           <Typography
             style={{
@@ -177,9 +214,15 @@ function Search() {
 
           >
             <Col>
+            </Col>
+            <Col>
               <TextField
-                onChange={(event) => setParcelCodeSearch(event.target.value)}
-                label="รหัสแปลงที่ดิน" />
+                onChange={(event) => {
+                  setParcelCodeSearch(event.target.value)
+                }}
+                label="รหัสแปลงที่ดิน"
+                value={parcelCodeSearch}
+              />
             </Col>
             <Col>
               <Button
@@ -194,9 +237,6 @@ function Search() {
                 ค้นหา
               </Button>
             </Col>
-            <Col>
-
-            </Col>
           </Row>
         </Box>
         <Box className="content">
@@ -204,7 +244,6 @@ function Search() {
             <Typography
               style={{
                 color: '#025464',
-                // textAlign: "center",
                 fontWeight: '900',
                 fontSize: '25px',
                 margin: '10px 5px'
@@ -228,16 +267,16 @@ function Search() {
           <Row style={{ justifyContent: "center" }}>
             {loading ? <LoadingOutlined /> : ""}
             <Table
-              columns={columns}
+              rowClassName={(record, index) => index % 2  === 0 ? 'table-row-light' : 'table-row-dark'} columns={columns}
               // rowSelection={{}}
-              expandable={{
-                expandedRowRender: (child) => (
-                  <a style={{ margin: 0, }} >
-                    หมายเหตุ : {child.note}
-                  </a>
-                ),
-                rowExpandable: (child) => child.note !== null,
-              }}
+              // expandable={{
+              //   expandedRowRender: (child) => (
+              //     <a style={{ margin: 0, }} >
+              //       หมายเหตุ : {child.note}
+              //     </a>
+              //   ),
+              //   rowExpandable: (child) => child.note !== '' && null,
+              // }}
               dataSource={data}
 
             />
@@ -246,7 +285,7 @@ function Search() {
             open={deleteDialogOpen}
             onClose={handleDeleteDialogClose}
             component="form"
-            id="refreshButton"
+
           >
             <DialogTitle>ท่านต้องการลบแบบสำรวจ?</DialogTitle>
             <DialogContent>
@@ -273,12 +312,10 @@ function Search() {
                 variant="contained"
                 onClick={(event) => {
                   fetchDeletedata(event)
-
                 }}
                 color='error'
                 type="submit"
-              // startIcon={<RemoveCircleIcon />}
-
+                id="refreshButton"
               >
                 ลบ
               </Button>
