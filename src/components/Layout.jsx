@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./layout.css";
 import "../../src/index.css"
 import { Form, Layout, Row, Col } from "antd";
-import Content from "./Forminput";
+// import Content from "./Forminput";
 import { Link, useNavigate } from "react-router-dom";
 // import { styled} from '@mui/material/styles';
 import AppBar from "@mui/material/AppBar";
@@ -44,12 +44,6 @@ export default function Layouts() {
       document.getElementById("otherSide").style.marginLeft = "0px";
     }
   });
-  // const handleLogout = (event) => {
-  //   event.preventDefault()
-  //   localStorage.removeItem('token')
-  //   setUser(null)
-  //   window.location = '/'
-  // }
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -182,9 +176,8 @@ export default function Layouts() {
               </Avatar>
               <h3
                 variant="h6"
-                noWrap
                 component="div"
-                sx={{ display: { xs: "none", sm: "block" } }}
+                style={{ display: { xs: "none", sm: "block" },  letterSpacing: "1px" }}
               >
                 กองสารสนเทศภาษีและทะเบียนทรัพย์สิน
               </h3>

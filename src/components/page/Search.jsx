@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
-import LoadingOutlined from "../LoadingOutlined";
+import * as React from 'react';
 import Layouts from "../Layout";
-import MenuItem from "@mui/material/MenuItem";
-import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import axiosEPropertyFolder from '../../api/axios'
-import { Table, Row, Col } from "antd";
 import "../../../src/index.css";
+import { useEffect, useState } from "react";
+import LoadingOutlined from "../LoadingOutlined";
+import axiosEPropertyFolder from '../../api/axios'
+import { FileSearchOutlined } from "@ant-design/icons";
+import { Table, Row, Col, Image, Modal, Divider } from "antd";
+import { useNavigate, useSearchParams, useLocation} from "react-router-dom";
 import {
   Box,
   TextField,
@@ -20,22 +20,64 @@ import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import useFetchFileData from "../hooks/useFetchFileData";
 
-
 function Search() {
   let [searchParams, setSearchParams] = useSearchParams();
   const { theme } = useCustomTheme();
   const location = useLocation()
-  const { fetchfileEdit } = useFetchFileData()
+  const { fetchViewData } = useFetchFileData()
   const navigate = useNavigate()
+  const [viewData, setViewData] = useState([{
+    parcelCode: '',
+    type: 0,
+    image: {
+      image: null,
+      imageUrl: null
+    },
+    note: null,
+  }])
+
   const [data, setData] = useState([]);
   const [columns, setColumns] = useState([])
   const [loading, setLoading] = useState(false)
   const [parcelCodeSearch, setParcelCodeSearch] = useState(
     searchParams.get('parcelCodeSearch'
     ))
+  const [parcelCode, setParcelCode] = useState('')
   const [deleteId, setDeleteId] = useState()
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [statusChangedNote, setStatusChangedNote] = useState('')
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+
+  };
+  const typeName = [
+    {
+      idType: 1,
+      type_name: "เอกสารสิทธิ์"
+    },
+    {
+      idType: 2,
+      type_name: "ทด.1"
+    },
+    {
+      idType: 3,
+      type_name: "แบบสำรวจที่ดินและสิ่งปลูกสร้าง"
+    },
+    {
+      idType: 4,
+      type_name: "แบบสำรวจป้าย"
+    },
+    {
+      idType: 5,
+      type_name: "อื่นๆ"
+    }]
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   const handleDeleteDialogClickOpen = () => {
     setDeleteDialogOpen(true);
   };
@@ -77,6 +119,10 @@ function Search() {
       console.log(err)
     })
   }
+
+
+
+
   useEffect(() => {
     if (location?.state?.parcelCode) {
       handleSearchFormSubmit(location.state.parcelCode)
@@ -90,105 +136,37 @@ function Search() {
         title: "รหัสแปลงที่ดิน",
         dataIndex: 'parcel_code',
         width: 400,
-        // render: (_, record) => <a>{record.parcel_code}</a>,
-      },
-      {
-        title: "ประเภทเอกสาร",
-        dataIndex: 'type',
-        width: 400,
-        render: (params) => {
-          console.log(params)
-          const typeName = [
-            {
-              idType: 1,
-              type_name: "เอกสารสิทธิ์"
-            },
-            {
-              idType: 2,
-              type_name: "ทด.1"
-            },
-            {
-              idType: 3,
-              type_name: "แบบสำรวจที่ดินและสิ่งปลูกสร้าง"
-            },
-            {
-              idType: 4,
-              type_name: "แบบสำรวจป้าย"
-            },
-            {
-              idType: 5,
-              type_name: "อื่นๆ"
-            },
-          ]
-          return (
-            <p style={{ fontFamily: 'IBM Plex Sans Thai' }} > {typeName.map((data) => (data.idType === params ? data.type_name : ' '))}</p>
-          )
-        }
-      },
-      {
-        title: "หมายเหตุ",
-        dataIndex: 'note',
-        width: 400,
-         render: (_, record) => <p style={{ fontFamily: 'IBM Plex Sans Thai' }}>{record.note}</p>,
-      },
-      // {
-      //   title: "หมายเหตุ",
-      //   dataIndex: 'path',
-      //   width: 400,
-      //    render: (_, record) => <a style={{ fontFamily: 'IBM Plex Sans Thai' }}>{record.path}</a>,
-      // },
-      {
-        width: 400,
-        render: (params) => {
-          const fileId = params.id
-          return (
-            <Button style={{ color: "#6a5acd", }}
-              onClick={() => {
-                console.log(fileId)
-                navigate('/edit', { state: { fileId: fileId } })
-              }}
-            >
-              <EditOutlined /> แก้ไขข้อมูล
-            </Button>)
-        }
+        render: (_, record) => <p style={{fontWeight: 500}}>{record.parcel_code}</p>,
       },
       {
         width: 400,
         render: (params) => {
-          const pacelCodeID = params.id
+          const paramParcelCode = params.parcel_code
           return (
-            <Button
-              // variant="contained"
-              // color="error"
-
-              style={{ color: "#cf1322", }}
-              onClick={() => {
-                setDeleteId(pacelCodeID)
-                console.log(pacelCodeID)
-                handleDeleteDialogClickOpen()
-              }}
-            >
-              <DeleteOutlined />
-              ลบข้อมูล
-            </Button>
-          
-
+            <>
+              <Button
+                type="primary"
+                onClick={() => {
+                  console.log("parcelCode", paramParcelCode)
+                  setParcelCode(paramParcelCode)
+                  fetchViewData(paramParcelCode, setViewData)
+                  showModal()
+                }}>
+                <FileSearchOutlined /> Open File
+              </Button>
+            </>
           )
         }
       }
     ])
   }, [])
-  useEffect(() => { console.log(data) }, [data])
-
-
-  const refreshButton = document.getElementById("refreshButton");
-
+  useEffect(() => { console.log(viewData) }, [viewData])
   return (
     <ThemeProvider theme={theme}>
-      <div className="otherSide" id="otherSide">
-        <div>
+      <Box className="otherSide" id="otherSide">
+        <Box>
           <Layouts />
-        </div>
+        </Box>
         <Box
           className="content"
           component="form"
@@ -211,14 +189,13 @@ function Search() {
           <Row
             gutter={[24, 24]}
             style={{ justifyContent: "center", alignItems: "center" }}
-
           >
             <Col>
             </Col>
             <Col>
               <TextField
                 onChange={(event) => {
-                  setParcelCodeSearch(event.target.value)
+                  setParcelCodeSearch(event.target.value.toUpperCase())
                 }}
                 label="รหัสแปลงที่ดิน"
                 value={parcelCodeSearch}
@@ -240,6 +217,7 @@ function Search() {
           </Row>
         </Box>
         <Box className="content">
+          <Col>
           <Row>
             <Typography
               style={{
@@ -264,72 +242,142 @@ function Search() {
               เพิ่มแฟ้มเอกสาร
             </Button>
           </Row>
+          </Col>
+          <Col>
+          <Box>
+            <Typography  style={{color:'#f5222d'}}>
+              **หากข้อมูลในเอกสารผิด ผู้ใช้งานต้องลบข้อมูลในเอกสารและเพิ่มข้อมูลใหม่
+            </Typography>
+            </Box>
+          </Col>
           <Row style={{ justifyContent: "center" }}>
             {loading ? <LoadingOutlined /> : ""}
             <Table
-              rowClassName={(record, index) => index % 2  === 0 ? 'table-row-light' : 'table-row-dark'} columns={columns}
-              // rowSelection={{}}
-              // expandable={{
-              //   expandedRowRender: (child) => (
-              //     <a style={{ margin: 0, }} >
-              //       หมายเหตุ : {child.note}
-              //     </a>
-              //   ),
-              //   rowExpandable: (child) => child.note !== '' && null,
-              // }}
+              rowClassName={(record, index) => index % 2 === 0 ? 'table-row-light' : 'table-row-dark'} columns={columns}
               dataSource={data}
-
             />
           </Row>
-          <Dialog
-            open={deleteDialogOpen}
-            onClose={handleDeleteDialogClose}
-            component="form"
-
-          >
-            <DialogTitle>ท่านต้องการลบแบบสำรวจ?</DialogTitle>
-            <DialogContent>
-              <DialogContentText sx={{ width: '60ch' }}>
-                โปรดระบุสาเหตุการลบแบบสำรวจ
-              </DialogContentText>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="note"
-                label="สาเหตุ"
-                multiline
-                rows={3}
-                fullWidth
-                variant="standard"
-                value={statusChangedNote}
-                onChange={(event) => {
-                  setStatusChangedNote(event.target.value)
-                }}
-              />
-            </DialogContent>
-            <DialogActions>
-              <Button
-                variant="contained"
-                onClick={(event) => {
-                  fetchDeletedata(event)
-                }}
-                color='error'
-                type="submit"
-                id="refreshButton"
-              >
-                ลบ
-              </Button>
-              <Button
-                variant="contained"
-                color='warning'
-                onClick={handleDeleteDialogClose}>
-                ยกเลิก
-              </Button>
-            </DialogActions>
-          </Dialog>
         </Box>
-      </div>
-    </ThemeProvider>
+        <Modal
+        // title='1111'
+          open={isModalOpen}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          style={{ }}
+        >
+          <Typography 
+          style={{ 
+            fontWeight: '900', 
+            fontSize: '1.5rem',
+            color:'#117c91',
+            margin: '10px 0px 10px 0px'
+            }} >
+             รหัสแปลงที่ดิน  {parcelCode}
+          </Typography>
+          <Box>
+            {viewData.map((view, index) => (
+              <Box style={{ mg: '40px 10px 10px 10px' }}>
+                <Row
+                  style={{
+                    display: 'flex',
+                    flexflow: 'row wrap',
+                    minWidth: '0',
+                    justifyContent: 'space-between',
+                    alignContent: 'center',
+                    alignItems: 'center',
+                    // mg: '40px 10px 10px 10px'
+                  }}>
+                  <Col>
+                    <Row>
+                      <Typography style={{ fontWeight: '900' }} >
+                        ประเภทเอกสาร :
+                      </Typography>
+                      <Typography>
+                        {typeName.map((data) => (data.idType === view.type ? data.type_name : ' '))}
+                      </Typography>
+                    </Row>
+                    <Row>
+                      <Typography style={{ fontWeight: '900' }} >
+                        หมายเหตุ :
+                      </Typography>
+                      <Typography>
+                        {view.note}
+                      </Typography>
+                    </Row>
+                  </Col>
+                  <Col>
+                    {/* <Button
+                      color="warning"
+                      onClick={() => navigate('/edit', { state: { fileId: view.id } })}
+                    >แก้ไข
+                    </Button> */}
+                    <Button
+                      color='error'
+                      onClick={() => {
+                        setDeleteId(view.id)
+                        console.log(view.id)
+                        handleDeleteDialogClickOpen()
+                      }}
+                    >ลบข้อมูล</Button>
+                  </Col>
+                </Row>
+                <Image
+                  src={view.image.imageUrl}
+                />
+                <Divider orientation="left" className="divider" />
+              </Box>
+            ))}
+
+          </Box>
+        </Modal>
+        <Dialog
+          open={deleteDialogOpen}
+          onClose={handleDeleteDialogClose}
+          component="form"
+
+        >
+          <DialogTitle>ท่านต้องการลบแบบสำรวจ?</DialogTitle>
+          <DialogContent>
+            <DialogContentText sx={{ width: '60ch' }}>
+              โปรดระบุสาเหตุการลบแบบสำรวจ
+            </DialogContentText>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="note"
+              label="สาเหตุ"
+              multiline
+              rows={3}
+              fullWidth
+              variant="standard"
+              value={statusChangedNote}
+              onChange={(event) => {
+                setStatusChangedNote(event.target.value)
+              }}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              variant="contained"
+              onClick={(event) => {
+                fetchDeletedata(event)
+              }}
+              color='error'
+              type="submit"
+              id="refreshButton"
+            >
+              ลบ
+            </Button>
+            <Button
+              variant="contained"
+              color='warning'
+              onClick={handleDeleteDialogClose}>
+              ยกเลิก
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Box >
+    </ThemeProvider >
   );
 }
 

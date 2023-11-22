@@ -1,40 +1,28 @@
-import { useState, useEffect } from 'react'
 import axiosEPropertyFolder from '../../api/axios'
-import { useLocation } from 'react-router-dom'
-// import { useLocation } from 'react-router-dom'
 
 export default function useFetchFileData() {
-  async function fetchImage(imagesData, type,landImagesUrl, setLandImagesUrl, buildingImagesURL, setBuildingImagesURL) {
-        setLandImagesUrl([])
-        setBuildingImagesURL([])
+  async function fetchImage(editData, files, setFiles) {
     await axiosEPropertyFolder({
       method: 'post',
       url: `/downloadimage`,
       data: {
-        path: imagesData.path
+        path: editData.path
       },
       responseType: 'blob'
     }).then(async response => {
-      // console.log(imagesURL)
-      if (type === 'land') {
-        const imagesURL = {
-          url: URL.createObjectURL(response.data),
-          parcelCode: imagesData.parcelCode,
-          uploadDate: imagesData.uploadDate,
-          dn: imagesData.dn
-        }
-        setLandImagesUrl(prev => [...prev, imagesURL])
+      const image = {
+        image: null,
+        imageUrl: URL.createObjectURL(response.data)
       }
-      if (type === 'building') {
-        const imagesURL = {
-          url: URL.createObjectURL(response.data),
-          parcelCode: imagesData.parcelCode,
-          uploadDate: imagesData.uploadDate,
-          address: imagesData.address
-        }
-        // console.log(imagesURL)
-        setBuildingImagesURL(prev => [...prev, imagesURL])
-      }
+      // console.log(editData)
+      setFiles({
+        ...files,
+        parcelCode: editData.parcel_code,
+        type: editData.type,
+        note: editData.note,
+        image: image
+      })
+
     }).catch(error => {
       console.error(error);
     })
@@ -51,33 +39,67 @@ export default function useFetchFileData() {
       response = response.data
       // console.log("res", response)
       if (response.status === 'OK') {
-        response = response.data
+        const editData = response.data
 
-        console.log("res", response)
-        setFiles({
-          ...files,
-          parcelCode: response.parcel_code,
-          type: response.type,
-          note: response.note
-        })
+        console.log("res", editData)
+        fetchImage(editData, files, setFiles)
 
       } else {
 
       }
     }
   }
-  // const fetchfileEdit =async() => { 
-  //     if (true) {
-  //       var response = await axiosEPropertyFolder({
-  //         method: 'post',
-  //         url: `/edit`,
-  //         data: {
-  //           // id: fileId,
-  //         }
-  //       })
-  //   }
-  // }
 
+  const fetchViewData = async (parcelCode, setViewData) => {
+    await axiosEPropertyFolder({
+      method: 'post',
+      url: '/viewdata',
+      data: {
+        parcelCode: parcelCode
+      }
+    }).then((response) => {
+      response = response.data.data
+      // console.log(response)
+      if (response?.length > 0) {
+        response.forEach((data, index) => {
+          fetchViewDataImage(data)
+        });
+      }
+      // setViewData({
+      //   parcelCode: response.parcel_code,
+      //   type: response.type,
+      //   note: response.note
+      // })
+    }).catch((err) => {
+      console.log(err)
+    })
+    async function fetchViewDataImage(data) {
+      console.log(data)
+      setViewData([])
+      await axiosEPropertyFolder({
+        method: 'post',
+        url: `/downloadimage`,
+        data: {
+          path: data.path
+        },
+        responseType: 'blob'
+      }).then(async response => {
+        const image = {
+          image: null,
+          imageUrl: URL.createObjectURL(response.data)
+        }
+        setViewData(prev => [...prev, {
+          parcelCode: data.parcel_code,
+          type: data.type,
+          image: image,
+          note: data.note,
+          id:data.id
+        }])
+      }).catch(error => {
+        console.error(error);
+      })
+    }
+  }
 
-  return { fetchFileData }
+  return { fetchFileData, fetchImage, fetchViewData }
 }

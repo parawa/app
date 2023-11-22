@@ -23,7 +23,7 @@ export default function useUploadImages() {
     return []
    }
    return result.data
-  } else {
+  } else { 
    return []
   }
  }

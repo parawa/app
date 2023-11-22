@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import useCustomTheme from "../hooks/useCustomTheme"
-import { TextField, Typography, Box, ThemeProvider, Button } from "@mui/material";
+import { TextField, Typography, Box, ThemeProvider, Button, Card, CardActionArea, CardContent, CardMedia, } from "@mui/material";
 import Layouts from "../Layout";
 import MenuItem from "@mui/material/MenuItem";
 import LoadingOutlined from "../LoadingOutlined";
-import { Row, Col, Divider, message } from "antd";
+import { Row, Col, Divider, message, Image, Modal } from "antd";
 import { SearchOutlined } from "@ant-design/icons"
 import { useNavigate, useLocation } from 'react-router-dom';
 import useFetchFileData from "../hooks/useFetchFileData";
@@ -32,14 +32,15 @@ export default function Edit() {
   useEffect(() => {
     if (location.state.fileId) {
       fetchFileData(files, setFiles, location.state.fileId)
-      
     }
   }, [])
   useEffect(() => {
     console.log(files)
-  }, [])
+  }, [files])
 
   const [messageApi, contextHolder] = message.useMessage();
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const handleCancel = () => setPreviewOpen(false);
 
   return (
     <ThemeProvider theme={theme}>
@@ -116,8 +117,9 @@ export default function Edit() {
                     <MenuItem value={5}>อื่นๆ</MenuItem>
                   </TextField>
                 </Col>
-                <Col span={10}>
-                  <TextField
+                <Col span={10} >
+
+                  {/* <TextField
                     className="text-field"
                     type="file"
                     // value={files.file}
@@ -127,11 +129,30 @@ export default function Edit() {
                     onChange={(event) => {
                       setFiles({ ...files, file: event.target.value })
                     }}
-                  />
+                  /> */}
                   {/* <Box sx={{  height: 400, mt: 1 }}>
                     
                   </Box> */}
+                 
+                    {/* <Card>
+                      <CardActionArea>
+                        <CardMedia
+                          component="img"
+                          alt="Contemplative Reptile"
+                          height="auto"
+                          title="Contemplative Reptile"
+                          image={files.image.imageUrl}
+                        />
+                      </CardActionArea>
+                    </Card> */}
 
+                  {/* <Modal > */}
+                    <Image
+                      width={200}
+                      // height={200}
+                      src={files.image.imageUrl}
+                    />
+                  {/* </Modal> */}
                 </Col>
 
               </Row>
@@ -181,7 +202,7 @@ export default function Edit() {
             </Button>
           </Row>
           {/* </div> */}
-          
+
         </Box>
       </div>
 
